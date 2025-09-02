@@ -667,14 +667,27 @@ local function addHolidayToSchedule(holiday, schedule)
 	local startTime = time(holiday.startDate)
 	local endTime = time(holiday.endDate)
 
-	holiday.startDate = date("*t", startTime)
-	holiday.endDate = date("*t", endTime)
+	if holiday.artConfig == "BattlegroundsArt" then
+		holiday.startDate = date("*t", startTime)
+		holiday.endDate = date("*t", endTime)
+	else
+		holiday.startDate = date("*t", adjustDST(startTime))
+		holiday.endDate = date("*t", adjustDST(endTime))
+	end
 	-- Force fishing event times to 2pm–4pm
 	if holiday.name == L.HolidayLocalization[localeString]["CalendarHolidays"]["StranglethornFishingExtravaganza"]["name"] then
 		holiday.startDate.hour = 14
 		holiday.startDate.min = 0
 		holiday.endDate.hour = 16
 		holiday.endDate.min = 0
+	end
+	-- Force BG holiday event times to fixed hours and prevent DST offset
+	if holiday.artConfig == "BattlegroundsArt" then
+		-- Example: 12:00 to 23:59, adjust as needed for your server/event
+		holiday.startDate.hour = 12
+		holiday.startDate.min = 0
+		holiday.endDate.hour = 23
+		holiday.endDate.min = 59
 	end
 	-- Set iconTexture for battleground weekends
 	if holiday.calendarType == "HOLIDAY" and holiday.artConfig == "BattlegroundsArt" then
@@ -700,6 +713,31 @@ local function addHolidayToSchedule(holiday, schedule)
 				eventCopy.startDate.hour = 14
 				eventCopy.startDate.min = 0
 				eventCopy.endDate.hour = 16
+				eventCopy.endDate.min = 0
+			end
+			-- Force BG holiday event times to fixed hours for recurring events
+			if eventCopy.artConfig == "BattlegroundsArt" then
+				-- Ensure start is Friday
+				local d = eventCopy.startDate
+				local weekday = date("*t", time(d)).wday
+				-- WoW Lua: Sunday=1, Friday=6
+				if weekday ~= 6 then
+					local daysToFriday = (6 - weekday) % 7
+					local newTime = time(d) + (daysToFriday * SECONDS_IN_DAY)
+					eventCopy.startDate = date("*t", newTime)
+				end
+				eventCopy.startDate.hour = 0
+				eventCopy.startDate.min = 1
+				-- Ensure end is Tuesday at 7:00am
+				local dEnd = eventCopy.endDate
+				local weekdayEnd = date("*t", time(dEnd)).wday
+				-- WoW Lua: Sunday=1, Tuesday=3
+				if weekdayEnd ~= 3 then
+					local daysToTuesday = (3 - weekdayEnd) % 7
+					local newEndTime = time(dEnd) + (daysToTuesday * SECONDS_IN_DAY)
+					eventCopy.endDate = date("*t", newEndTime)
+				end
+				eventCopy.endDate.hour = 7
 				eventCopy.endDate.min = 0
 			end
 			-- Set iconTexture for battleground weekends (recurring)
