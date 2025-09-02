@@ -309,18 +309,21 @@ local CLASSIC_CALENDAR_HOLIDAYS = {
 }
 
 local WeeklyHolidays = 	{
-	{
-		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["StranglethornFishingExtravaganza"]["name"],
-		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["StranglethornFishingExtravaganza"]["description"],
-		startDate={ year=2024, month=2, day=11, hour=14, min=0 },
-		endDate={ year=2024, month=2, day=11, hour=16, min=0 },
-		frequency=7,
-		CVar="calendarShowWeeklyHolidays",
-		startTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
-		ongoingTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
-		endTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
-		ZIndex=ZIndexes.low
-	},
+	 -- Recurring fishing event: starts on September 7, 2025, repeats weekly for 10 years
+	 {
+		 name=L.HolidayLocalization[localeString]["CalendarHolidays"]["StranglethornFishingExtravaganza"]["name"],
+		 description=L.HolidayLocalization[localeString]["CalendarHolidays"]["StranglethornFishingExtravaganza"]["description"],
+		 startDate={ year=2025, month=9, day=7, hour=14, min=0 },
+		 endDate={ year=2025, month=9, day=7, hour=16, min=0 },
+		 frequency=7,
+		 CVar="calendarShowWeeklyHolidays",
+		 startTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
+		 ongoingTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
+		 endTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
+		 ZIndex=ZIndexes.low,
+		 calendarType = "HOLIDAY",
+		 sequenceType = "START"
+	 },
 }
 
 local SoDWeeklyHolidays = {
@@ -334,7 +337,9 @@ local SoDWeeklyHolidays = {
 		startTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
 		ongoingTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
 		endTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
-		ZIndex=ZIndexes.low
+		ZIndex=ZIndexes.low,
+		calendarType = "HOLIDAY"
+	,sequenceType = "START"
 	},
 	{
 		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["StranglethornFishingExtravaganza"]["name"],
@@ -346,7 +351,9 @@ local SoDWeeklyHolidays = {
 		startTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
 		ongoingTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
 		endTexture="Interface/Calendar/Holidays/Calendar_FishingExtravaganza",
-		ZIndex=ZIndexes.low
+		ZIndex=ZIndexes.low,
+		calendarType = "HOLIDAY"
+	,sequenceType = "START"
 	},
 }
 
@@ -598,7 +605,7 @@ local function addHolidayToSchedule(holiday, schedule)
 	tinsert(schedule, holiday)
 	if holiday.frequency ~= nil then
 		local days = 0
-		while days < 365 do
+		while days < 3650 do -- 10 years
 			local eventCopy = CopyTable(holiday)
 			startTime = startTime + (SECONDS_IN_DAY * holiday.frequency)
 			endTime = endTime + (SECONDS_IN_DAY * holiday.frequency)
