@@ -628,8 +628,9 @@ local function GetClassicDarkmoons()
 
 	local darkmoonEvents = {}
 
-	-- Starting from Jan 2024, add a year of Darkmoon events per year since 2024
-	for _ = 1, (currentCalendarTime.year - year + 1) * 12 do
+	-- Schedule Darkmoon Faire for the next 10 years
+	local yearsToSchedule = 10
+	for _ = 1, yearsToSchedule * 12 do
 		month = month + 1
 		if month > 12 then
 			month = 1
