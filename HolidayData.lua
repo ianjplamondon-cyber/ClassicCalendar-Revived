@@ -277,9 +277,9 @@ local CLASSIC_CALENDAR_HOLIDAYS = {
 		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["PilgrimsBounty"]["description"],
 		startDate={ year=2025, month=11, day=22, hour=9, min=0 },
 		endDate={ year=2025, month=11, day=28, hour=23, min=59 },
-		startTexture="Interface/Calendar/Holidays/Calendar_PilgrimsBountyStart",
-		ongoingTexture="Interface/Calendar/Holidays/Calendar_PilgrimsBountyOngoing",
-		endTexture="Interface/Calendar/Holidays/Calendar_PilgrimsBountyEnd",
+		startTexture="Interface/Calendar/Holidays/Calendar_HarvestFestivalStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_HarvestFestivalOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_HarvestFestivalEnd",
 		ZIndex=ZIndexes.high
 	},
 	{
