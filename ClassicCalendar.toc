@@ -1,10 +1,8 @@
-## Interface: 11504
-## Title: Classic Calendar
-## Version: 0.7.0beta
+## Interface: 11507
+## Title: Classic Calendar - Revived
+## Version: @project-version@
 ## SavedVariables: CCConfig
-## X-Wago-ID: nKW1ZrNE
-## X-WoWI-ID: 26678
-## X-Curse-Project-ID: 960282
+## X-Curse-Project-ID: 
 
 locales\localization-world.lua
 ClassicCalendar_Options.lua
