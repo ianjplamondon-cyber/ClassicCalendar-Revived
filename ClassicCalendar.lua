@@ -92,7 +92,6 @@ function CalendarOnEditBoxTab(editBox)
 	tabFocusGroup:OnTabPressed(preventFocusWrap);
 end
 
--- speed optimizations
 local next = next;
 local date = date;
 local abs = abs;
@@ -111,6 +110,9 @@ local strtrim = strtrim;
 local GetCVarBool = GetCVarBool;
 local PI = PI;
 local TWOPI = PI * 2.0;
+
+-- Force context menu label for personal event creation
+CALENDAR_CREATE_EVENT = "Create Private Event"
 
 -- local constants
 local CALENDAR_MAX_DAYS_PER_MONTH			= 42;		-- 6 weeks
