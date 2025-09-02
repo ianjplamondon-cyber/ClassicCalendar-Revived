@@ -672,6 +672,14 @@ L.HolidayLocalization = {
 				["name"] = "Lunar Festival",
 				["description"] = "Every year the druids of Moonglade hold a celebration of their city's great triumph over an ancient evil. During the Lunar Festival, citizens of Azeroth have the opportunity to honor their elders by celebrating their sage wisdom, sharing in magnificent feasts, and of course... shooting lots of fireworks!",
 			},
+			["Brewfest"] = {
+				["name"] = "Brewfest",
+				["description"] = "Raise a stein and celebrate Brewfest with food, drink, and revelry!",
+			},
+				["PilgrimsBounty"] = {
+					["name"] = "Pilgrim's Bounty",
+					["description"] = "Give thanks and celebrate the harvest with feasts and friends during Pilgrim's Bounty!",
+				},
 		},
 	},
 	["deDE"] = {

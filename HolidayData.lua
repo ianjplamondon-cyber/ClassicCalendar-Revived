@@ -193,22 +193,100 @@ local ZIndexes = {
 
 local CLASSIC_CALENDAR_HOLIDAYS = {
 	{
-		-- Historical
-		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["WintersVeil"]["name"],
-		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["WintersVeil"]["description"],
-		startDate={ year=2023, month=12, day=15, hour=9, min=0 },
-		endDate={ year=2024, month=1, day= 2, hour=9, min=0 },
-		startTexture="Interface/Calendar/Holidays/Calendar_WinterVeilStart",
-		ongoingTexture="Interface/Calendar/Holidays/Calendar_WinterVeilOngoing",
-		endTexture="Interface/Calendar/Holidays/Calendar_WinterVeilEnd",
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["LunarFestival"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["LunarFestival"]["description"],
+		startDate={ year=2025, month=2, day=1, hour=9, min=0 },
+		endDate={ year=2025, month=2, day=15, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_LunarFestivalStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_LunarFestivalOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_LunarFestivalEnd",
 		ZIndex=ZIndexes.high
 	},
 	{
-		-- Confirmed, static dates
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["LoveisintheAir"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["LoveisintheAir"]["description"],
+		startDate={ year=2025, month=2, day=7, hour=9, min=0 },
+		endDate={ year=2025, month=2, day=20, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_LoveIsInTheAirStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_LoveIsInTheAirOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_LoveIsInTheAirEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["Noblegarden"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["Noblegarden"]["description"],
+		startDate={ year=2025, month=4, day=20, hour=9, min=0 },
+		endDate={ year=2025, month=4, day=27, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_NoblegardenStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_NoblegardenOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_NoblegardenEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["ChildrensWeek"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["ChildrensWeek"]["description"],
+		startDate={ year=2025, month=5, day=1, hour=9, min=0 },
+		endDate={ year=2025, month=5, day=7, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_ChildrensWeekStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_ChildrensWeekOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_ChildrensWeekEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["MidsummerFireFestival"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["MidsummerFireFestival"]["description"],
+		startDate={ year=2025, month=6, day=21, hour=9, min=0 },
+		endDate={ year=2025, month=7, day=5, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_MidsummerFireFestivalStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_MidsummerFireFestivalOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_MidsummerFireFestivalEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["HarvestFestival"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["HarvestFestival"]["description"],
+		startDate={ year=2025, month=9, day=27, hour=9, min=0 },
+		endDate={ year=2025, month=10, day=4, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_HarvestFestivalStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_HarvestFestivalOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_HarvestFestivalEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["Brewfest"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["Brewfest"]["description"],
+		startDate={ year=2025, month=9, day=20, hour=9, min=0 },
+		endDate={ year=2025, month=10, day=4, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_BrewfestStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_BrewfestOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_BrewfestEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["HallowsEnd"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["HallowsEnd"]["description"],
+		startDate={ year=2025, month=10, day=18, hour=9, min=0 },
+		endDate={ year=2025, month=11, day=1, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_HallowsEndStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_HallowsEndOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_HallowsEndEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["PilgrimsBounty"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["PilgrimsBounty"]["description"],
+		startDate={ year=2025, month=11, day=22, hour=9, min=0 },
+		endDate={ year=2025, month=11, day=28, hour=23, min=59 },
+		startTexture="Interface/Calendar/Holidays/Calendar_PilgrimsBountyStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_PilgrimsBountyOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_PilgrimsBountyEnd",
+		ZIndex=ZIndexes.high
+	},
+	{
 		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["WintersVeil"]["name"],
 		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["WintersVeil"]["description"],
-		startDate={ year=2024, month=12, day=15, hour=9, min=0 },
-		endDate={ year=2025, month=1, day= 2, hour=9, min=0 },
+		startDate={ year=2025, month=12, day=15, hour=9, min=0 },
+		endDate={ year=2026, month=1, day=2, hour=23, min=59 },
 		startTexture="Interface/Calendar/Holidays/Calendar_WinterVeilStart",
 		ongoingTexture="Interface/Calendar/Holidays/Calendar_WinterVeilOngoing",
 		endTexture="Interface/Calendar/Holidays/Calendar_WinterVeilEnd",
