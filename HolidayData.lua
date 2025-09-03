@@ -40,15 +40,23 @@ local function addDaysToDate(eventDate, dayCount)
 	return date("*t", dateSeconds)
 end
 
+
 function SetMinTime(dateD)
-	local newDate = CopyTable(dateD)
+	local newDate = {}
+	for k, v in pairs(dateD) do
+		newDate[k] = v
+	end
 	newDate.hour = 0
 	newDate.min = 1
 	return newDate
 end
 
+
 function SetMaxTime(dateD)
-	local newDate = CopyTable(dateD)
+	local newDate = {}
+	for k, v in pairs(dateD) do
+		newDate[k] = v
+	end
 	newDate.hour = 23
 	newDate.min = 59
 	return newDate
