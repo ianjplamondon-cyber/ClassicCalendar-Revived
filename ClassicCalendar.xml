@@ -919,7 +919,7 @@
 					<KeyValue key="backdropBorderColor" value="TOOLTIP_DEFAULT_COLOR" type="global"/>
 				</KeyValues>
 				<Frames>
-					<Frame name="CalendarCreateEventDescriptionContainerScrollingEditBox" inherits="ScrollingEditBoxTemplate" frameStrata="HIGH">
+					<Frame name="CalendarCreateEventDescriptionContainerScrollingEditBox" parentKey="ScrollingEditBox" inherits="ScrollingEditBoxTemplate" frameStrata="HIGH">
 						<KeyValues>
 							<KeyValue key="fontName" value="GameFontHighlightSmall" type="string"/>
 							<KeyValue key="defaultFontName" value="GameFontDisableSmall" type="string"/>

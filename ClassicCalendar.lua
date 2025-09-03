@@ -84,7 +84,7 @@ function CalendarOnEditBoxTab(editBox)
 	if not tabFocusGroup then
 		tabFocusGroup = CreateTabGroup(
 			CalendarCreateEventTitleEdit,
-			CalendarCreateEventDescriptionContainer.ScrollingEditBox:GetEditBox(),
+			CalendarCreateEventDescriptionContainer.CalendarCreateEventDescriptionContainerScrollingEditBox:GetEditBox(),
 			CalendarCreateEventInviteEdit
 		);
 	end
@@ -1088,13 +1088,14 @@ function CalendarFrame_OnEvent(self, event, ...)
 		end
 	elseif ( event == "CALENDAR_UPDATE_ERROR" ) then
 		local message = ...;
-		StaticPopup_Show("CALENDAR_ERROR", _G[message]);
+		-- Use the message directly, not as a global lookup
+		StaticPopup_Show("CALENDAR_ERROR", message);
 	elseif ( event == "CALENDAR_UPDATE_ERROR_WITH_COUNT" ) then
 		local message, count = ...;
-		StaticPopup_Show("CALENDAR_ERROR", _G[message]:format(count));
+		StaticPopup_Show("CALENDAR_ERROR", message:format(count));
 	elseif ( event == "CALENDAR_UPDATE_ERROR_WITH_PLAYER_NAME" ) then
 		local message, playerName = ...;
-		StaticPopup_Show("CALENDAR_ERROR", _G[message]:format(playerName));
+		StaticPopup_Show("CALENDAR_ERROR", message:format(playerName));
 	end
 end
 
@@ -2027,18 +2028,18 @@ function CalendarDayContextMenu_PasteEvent(dayButton)
 end
 
 function CalendarDayContextMenu_DeleteEvent()
-	local text;
-	local calendarType = C_Calendar.ContextMenuEventGetCalendarType();
-	if ( calendarType == "GUILD_ANNOUNCEMENT" ) then
-		text = CALENDAR_DELETE_ANNOUNCEMENT_CONFIRM;
-	elseif ( calendarType == "GUILD_EVENT" ) then
-		text = CALENDAR_DELETE_GUILD_EVENT_CONFIRM;
-	elseif (calendarType == "COMMUNITY_EVENT") then
-		text = CALENDAR_DELETE_COMMUNITY_EVENT_CONFIRM;
-	else
-		text = CALENDAR_DELETE_EVENT_CONFIRM;
-	end
-	StaticPopup_Show("CALENDAR_DELETE_EVENT", text);
+		local text;
+		local calendarType = C_Calendar.ContextMenuEventGetCalendarType();
+		if ( calendarType == "GUILD_ANNOUNCEMENT" ) then
+			text = CALENDAR_DELETE_ANNOUNCEMENT_CONFIRM;
+		elseif ( calendarType == "GUILD_EVENT" ) then
+			text = CALENDAR_DELETE_GUILD_EVENT_CONFIRM;
+		elseif (calendarType == "COMMUNITY_EVENT") then
+			text = CALENDAR_DELETE_COMMUNITY_EVENT_CONFIRM;
+		else
+			text = CALENDAR_DELETE_EVENT_CONFIRM;
+		end
+		StaticPopup_Show("CALENDAR_DELETE_EVENT", text);
 end
 
 function CalendarDayContextMenu_ReportSpam()
@@ -2251,35 +2252,35 @@ function GenerateDayContextMenu(owner, rootDescription, flags, dayButton, eventB
 				rootDescription:QueueDivider();
 			end
 
-			-- if event.calendarType ~= "GUILD_ANNOUNCEMENT" then
-			-- 	if validCreationDate and _CalendarFrame_CanInviteeRSVP(event.inviteStatus) then
-			-- 		if _CalendarFrame_IsSignUpEvent(event.calendarType, event.inviteType) then
-			-- 			-- We no longer show remove event in the dropdown, only Sign Up.
-			-- 			if event.inviteStatus == Enum.CalendarStatus.NotSignedup then
-			-- 				rootDescription:CreateButton(CALENDAR_SIGNUP, CalendarDayContextMenu_SignUp);
-			-- 			end
-			-- 		elseif event.modStatus ~= "CREATOR" then
-			-- 			if event.inviteStatus ~= Enum.CalendarStatus.Available then
-			-- 				rootDescription:CreateButton(CALENDAR_ACCEPT_INVITATION, CalendarDayContextMenu_AcceptInvite);
-			-- 			end
-			-- 			if event.inviteStatus ~= Enum.CalendarStatus.Tentative then
-			-- 				rootDescription:CreateButton(CALENDAR_TENTATIVE_INVITATION, CalendarDayContextMenu_TentativeInvite);
-			-- 			end
-			-- 			if event.inviteStatus ~= Enum.CalendarStatus.Declined then
-			-- 				rootDescription:CreateButton(CALENDAR_DECLINE_INVITATION, CalendarDayContextMenu_DeclineInvite);
-			-- 			end
-			-- 		end
-			-- 		rootDescription:ClearQueuedDescriptions();
-			-- 	end
-			-- 	if _CalendarFrame_CanRemoveEvent(event.modStatus, event.calendarType, event.inviteType, event.inviteStatus) then
-			-- 		rootDescription:CreateButton(CALENDAR_REMOVE_INVITATION, CalendarDayContextMenu_RemoveInvite);
-			-- 		rootDescription:QueueDivider();
-			-- 	end
-			-- end
-			-- if C_Calendar.ContextMenuEventCanComplain(monthOffset, day, eventIndex) then
-			-- 	rootDescription:CreateButton(REPORT_CALENDAR, CalendarDayContextMenu_ReportSpam);
-			-- 	rootDescription:QueueDivider();
-			-- end
+			if event.calendarType ~= "GUILD_ANNOUNCEMENT" then
+			 	if validCreationDate and _CalendarFrame_CanInviteeRSVP(event.inviteStatus) then
+			 		if _CalendarFrame_IsSignUpEvent(event.calendarType, event.inviteType) then
+			 			-- We no longer show remove event in the dropdown, only Sign Up.
+			 			if event.inviteStatus == Enum.CalendarStatus.NotSignedup then
+			 				rootDescription:CreateButton(CALENDAR_SIGNUP, CalendarDayContextMenu_SignUp);
+			 			end
+			 		elseif event.modStatus ~= "CREATOR" then
+			 			if event.inviteStatus ~= Enum.CalendarStatus.Available then
+			 				rootDescription:CreateButton(CALENDAR_ACCEPT_INVITATION, CalendarDayContextMenu_AcceptInvite);
+			 			end
+			 			if event.inviteStatus ~= Enum.CalendarStatus.Tentative then
+			 				rootDescription:CreateButton(CALENDAR_TENTATIVE_INVITATION, CalendarDayContextMenu_TentativeInvite);
+			 			end
+			 			if event.inviteStatus ~= Enum.CalendarStatus.Declined then
+			 				rootDescription:CreateButton(CALENDAR_DECLINE_INVITATION, CalendarDayContextMenu_DeclineInvite);
+			 			end
+			 		end
+			 		rootDescription:ClearQueuedDescriptions();
+			 	end
+			 	if _CalendarFrame_CanRemoveEvent(event.modStatus, event.calendarType, event.inviteType, event.inviteStatus) then
+			 		rootDescription:CreateButton(CALENDAR_REMOVE_INVITATION, CalendarDayContextMenu_RemoveInvite);
+			 		rootDescription:QueueDivider();
+			 	end
+			end
+			if C_Calendar.ContextMenuEventCanComplain(monthOffset, day, eventIndex) then
+			 	rootDescription:CreateButton(REPORT_CALENDAR, CalendarDayContextMenu_ReportSpam);
+			 	rootDescription:QueueDivider();
+			end
 		elseif canPaste then
 			rootDescription:CreateButton(CALENDAR_PASTE_EVENT, CalendarDayContextMenu_PasteEvent, dayButton);
 		end
@@ -2946,7 +2947,12 @@ function CalendarViewEventRemoveButton_OnEnter(self)
 end
 
 function CalendarViewEventRemoveButton_OnClick(self)
-	C_Calendar.RemoveEvent();
+	local calendarType = C_Calendar.ContextMenuEventGetCalendarType();
+	if calendarType == "GUILD_EVENT" then
+		C_Calendar.ContextMenuInviteRemove(); -- Only remove player from invite list
+	else
+		C_Calendar.RemoveEvent(); -- Remove event for other types
+	end
 end
 
 function CalendarViewEventFrameHeaderFrame_OnEnter(self)
@@ -3310,7 +3316,9 @@ function CalendarCreateEventFrame_Update()
 		CalendarCreateEventTitleEdit:SetFocus();
 		C_Calendar.EventSetTitle("");
 		-- reset event description
-		CalendarCreateEventDescriptionContainer.ScrollingEditBox:ClearText();
+		if CalendarCreateEventDescriptionContainer and CalendarCreateEventDescriptionContainer.CalendarCreateEventDescriptionContainerScrollingEditBox then
+			CalendarCreateEventDescriptionContainer.CalendarCreateEventDescriptionContainerScrollingEditBox:ClearText();
+		end
 		C_Calendar.EventSetDescription("");
 		-- reset event time
 		CalendarCreateEventFrame.selectedMinute = CALENDAR_CREATEEVENTFRAME_DEFAULT_MINUTE;
