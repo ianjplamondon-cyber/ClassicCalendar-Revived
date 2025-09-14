@@ -1,13 +1,19 @@
 ## Interface: 11507
 ## Title: Classic Calendar - Revived
 ## Version: @project-version@
+## Author: Pimptasty
+## Version: @project-version@
+
+## X-Curse-Project-ID: 1339939
+
 ## SavedVariables: CCConfig
-## X-Curse-Project-ID: 
 
 locales\localization-world.lua
 ClassicCalendar_Options.lua
 HolidayData.lua
 Patches.lua
 Patches.xml
+Libs\LibStub\LibStub.lua
+Libs\LibDBIcon-1.0\LibDBIcon-1.0\LibDBIcon-1.0.lua
 ClassicCalendar.lua
 ClassicCalendar.xml

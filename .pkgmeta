@@ -1,5 +1,5 @@
 # .pkgmeta
-package-as: ClassicCalendar-Revived
+package-as: ClassicCalendar
 
 # Pull externals (examples — remove if you don’t need them)
 # externals:

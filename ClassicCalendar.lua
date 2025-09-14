@@ -35,9 +35,44 @@ StaticPopupDialogs["CALENDAR_ERROR"] = {
 };
 
 
--- UIParent integration
 CALENDAR_FRAME_EXTRA_WIDTH = 20;
 UIPanelWindows["CalendarFrame"] = { area = "doublewide", pushable = 0, whileDead = 1, yOffset = 20, extraWidth = CALENDAR_FRAME_EXTRA_WIDTH };
+
+-- Minimap Button with LibDBIcon
+local LibStub = _G.LibStub
+local LibDBIcon = LibStub("LibDBIcon-1.0", true)
+
+local ClassicCalendarDB = ClassicCalendarDB or {}
+ClassicCalendarDB.minimap = ClassicCalendarDB.minimap or {}
+
+local function OpenClassicCalendar()
+	if CalendarFrame:IsShown() then
+		HideUIPanel(CalendarFrame)
+	else
+		ShowUIPanel(CalendarFrame)
+	end
+end
+
+local iconData = {
+	icon = "Interface\\AddOns\\ClassicCalendar\\Textures\\ClassicCalendarIcon.tga",
+	iconCoords = {0.07,0.93,0.07,0.93},
+	tooltip = "Classic Calendar",
+	OnClick = function(self, button)
+		OpenClassicCalendar()
+	end,
+	OnTooltipShow = function(tt)
+		tt:AddLine("Classic Calendar")
+		tt:AddLine("Click to open/close the calendar.")
+	end,
+}
+
+local f = CreateFrame("Frame")
+f:RegisterEvent("PLAYER_LOGIN")
+f:SetScript("OnEvent", function()
+	if LibDBIcon and not LibDBIcon.objects["ClassicCalendar"] then
+		LibDBIcon:Register("ClassicCalendar", iconData, ClassicCalendarDB.minimap)
+	end
+end)
 
 -- CalendarMenus is an ORDERED table of frames, one of which will close when you press Escape.
 local CalendarMenus = {
