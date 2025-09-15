@@ -354,7 +354,17 @@ function stubbedGetNumDayEvents(monthOffset, monthDay)
 	}
 	local eventTime = time(eventDate)
 
-	for _, holiday in next, GetClassicHolidays() do
+	local holidays = GetClassicHolidays()
+	print("ClassicCalendar Debug: Number of holidays:", #holidays)
+	for i, holiday in ipairs(holidays) do
+		if holiday.startDate and holiday.endDate then
+			print(string.format("Holiday %d: startDate=%s, endDate=%s", i, tostring(holiday.startDate), tostring(holiday.endDate)))
+		else
+			print(string.format("Holiday %d: MISSING startDate or endDate", i))
+		end
+	end
+
+	for _, holiday in next, holidays do
 		local holidayMinStartTime = time(SetMinTime(holiday.startDate))
 		if eventTime < holidayMinStartTime then
 			break
