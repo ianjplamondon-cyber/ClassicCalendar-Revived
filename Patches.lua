@@ -356,11 +356,41 @@ function stubbedGetNumDayEvents(monthOffset, monthDay)
 
 	local holidays = GetClassicHolidays()
 	print("ClassicCalendar Debug: Number of holidays:", #holidays)
-	for i, holiday in ipairs(holidays) do
+	
+	-- Limit processing to prevent script timeout
+	if #holidays > 500 then
+		print("ClassicCalendar ERROR: Too many holidays generated (" .. #holidays .. "), limiting to first 500")
+		-- Truncate the holidays table to prevent timeout
+		for i = 501, #holidays do
+			holidays[i] = nil
+		end
+	end
+	
+	-- Only show first 10 and last 10 holidays for debugging
+	for i = 1, math.min(10, #holidays) do
+		local holiday = holidays[i]
 		if holiday.startDate and holiday.endDate then
-			print(string.format("Holiday %d: startDate=%s, endDate=%s", i, tostring(holiday.startDate), tostring(holiday.endDate)))
+			print(string.format("Holiday %d: name=%s, startDate=%d/%d/%d, endDate=%d/%d/%d", 
+				i, holiday.name or "Unknown", 
+				holiday.startDate.month, holiday.startDate.day, holiday.startDate.year,
+				holiday.endDate.month, holiday.endDate.day, holiday.endDate.year))
 		else
 			print(string.format("Holiday %d: MISSING startDate or endDate", i))
+		end
+	end
+	
+	if #holidays > 10 then
+		print("... (showing last 10 holidays)")
+		for i = math.max(#holidays - 9, 11), #holidays do
+			local holiday = holidays[i]
+			if holiday.startDate and holiday.endDate then
+				print(string.format("Holiday %d: name=%s, startDate=%d/%d/%d, endDate=%d/%d/%d", 
+					i, holiday.name or "Unknown", 
+					holiday.startDate.month, holiday.startDate.day, holiday.startDate.year,
+					holiday.endDate.month, holiday.endDate.day, holiday.endDate.year))
+			else
+				print(string.format("Holiday %d: MISSING startDate or endDate", i))
+			end
 		end
 	end
 

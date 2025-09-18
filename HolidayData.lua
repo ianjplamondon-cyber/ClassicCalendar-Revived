@@ -638,6 +638,7 @@ local function getSoDEvents()
 end
 
 local holidaySchedule = {}
+local lastCacheDate = nil
 
 local function getDSTDates(year)
 	-- Start of DST is 2nd Sunday of March
@@ -709,11 +710,20 @@ local function addHolidayToSchedule(holiday, schedule)
 	end
 	tinsert(schedule, holiday)
 	if holiday.frequency ~= nil then
-		local days = 0
-		while days < 3650 do
+		local currentTime = time(currentCalendarTime)
+		local oneYearFromNow = currentTime + (365 * SECONDS_IN_DAY)
+		
+		-- Generate recurring events for 1 year rolling window from current date
+		while startTime < oneYearFromNow do
 			local eventCopy = CopyTable(holiday)
 			startTime = startTime + (SECONDS_IN_DAY * holiday.frequency)
 			endTime = endTime + (SECONDS_IN_DAY * holiday.frequency)
+			
+			-- Skip events that are too far in the future
+			if startTime > oneYearFromNow then
+				break
+			end
+			
 			eventCopy.startDate = date("*t", startTime)
 			eventCopy.endDate = date("*t", endTime)
 			-- Force fishing event times to 2pm–4pm
@@ -759,7 +769,6 @@ local function addHolidayToSchedule(holiday, schedule)
 				end
 			end
 			tinsert(schedule, eventCopy)
-			days = days + holiday.frequency
 		end
 	end
 end
@@ -767,21 +776,29 @@ end
 local function GetClassicDarkmoons()
 	-- Darkmoon in Classic Era starts on the first Friday of every month
 	local isElwynn = true
-	local year = 2023
-	local month = 1
+	local year = currentCalendarTime.year
+	local month = currentCalendarTime.month
 
 	local darkmoonEvents = {}
+	local currentTime = time(currentCalendarTime)
+	local oneYearFromNow = currentTime + (365 * SECONDS_IN_DAY)
 
-	-- Schedule Darkmoon Faire for the next 10 years
-	local yearsToSchedule = 10
-	for _ = 1, yearsToSchedule * 12 do
+	-- Schedule Darkmoon Faire for 1 year rolling window from current date
+	for _ = 1, 15 do -- Maximum 15 months to ensure we cover the full year
 		month = month + 1
 		if month > 12 then
 			month = 1
 			year = year + 1
 		end
-		local holidayCopy = CopyTable(isElwynn and DarkmoonHolidays.mulgore or DarkmoonHolidays.elwynn)
+		
 		local startDate = GetDarkmoonStartDay(year, month)
+		
+		-- Skip events that are too far in the future
+		if time(startDate) > oneYearFromNow then
+			break
+		end
+		
+		local holidayCopy = CopyTable(isElwynn and DarkmoonHolidays.mulgore or DarkmoonHolidays.elwynn)
 		local endDate = addDaysToDate(startDate, 6)
 		startDate.hour = 0
 		startDate.min = 1
@@ -798,6 +815,16 @@ local function GetClassicDarkmoons()
 end
 
 function GetClassicHolidays()
+	-- Clear cache if it's a new day or if it has too many entries (indicates old buggy generation)
+	local currentDate = string.format("%d-%d-%d", currentCalendarTime.year, currentCalendarTime.month, currentCalendarTime.day)
+	if (lastCacheDate ~= currentDate) or (next(holidaySchedule) ~= nil and #holidaySchedule > 500) then
+		if next(holidaySchedule) ~= nil then
+			print("ClassicCalendar: Refreshing holiday cache (" .. (#holidaySchedule > 500 and "oversized: " .. #holidaySchedule .. " entries" or "new day") .. ")")
+		end
+		holidaySchedule = {}
+		lastCacheDate = currentDate
+	end
+	
 	if next(holidaySchedule) ~= nil then
 		return holidaySchedule
 	end
