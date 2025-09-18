@@ -634,6 +634,58 @@ function SlashCmdList.CALDEBUG(_msg, _editBox)
 	print("ClassicCalendar Debug Mode: " .. (DEBUG_MODE and "ON" or "OFF"))
 end
 
+-- Slash command /caldarkmoon to check Darkmoon Faire status
+
+SLASH_CALDARKMOON1 = '/caldarkmoon'
+
+function SlashCmdList.CALDARKMOON(_msg, _editBox)
+	print("=== Darkmoon Faire Debug ===")
+	
+	-- Check CVar
+	local darkmoonCVar = GetCVar("calendarShowDarkmoon")
+	print("calendarShowDarkmoon CVar:", darkmoonCVar)
+	
+	-- Check if we're in SoD
+	local isSoD = C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.Placeholder)
+	print("Is Season of Discovery:", tostring(isSoD))
+	print("Note: Currently using Classic schedule for both Classic and SoD")
+	
+	-- Get all holidays and count Darkmoon events
+	local holidays = GetClassicHolidays()
+	local darkmoonCount = 0
+	local darkmoonEvents = {}
+	
+	for _, holiday in ipairs(holidays) do
+		if holiday.name and string.match(holiday.name:lower(), "darkmoon") then
+			darkmoonCount = darkmoonCount + 1
+			table.insert(darkmoonEvents, holiday)
+		end
+	end
+	
+	print("=== Hardcoded Schedule Status ===")
+	print("Total holidays:", #holidays)
+	print("Darkmoon Faire events found:", darkmoonCount)
+	
+	-- Show first few Darkmoon events
+	for i = 1, math.min(5, #darkmoonEvents) do
+		local event = darkmoonEvents[i]
+		if event.startDate and event.endDate then
+			-- Calculate what day of week this starts on
+			local startTime = time({year=event.startDate.year, month=event.startDate.month, day=event.startDate.day})
+			local endTime = time({year=event.endDate.year, month=event.endDate.month, day=event.endDate.day})
+			local startDayName = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+			local startDayOfWeek = os.date("*t", startTime).wday
+			local endDayOfWeek = os.date("*t", endTime).wday
+			
+			print(string.format("Event %d: %s", i, event.name))
+			print(string.format("  Opens:  %s %d/%d/%d", 
+				startDayName[startDayOfWeek], event.startDate.month, event.startDate.day, event.startDate.year))
+			print(string.format("  Closes: %s %d/%d/%d", 
+				startDayName[endDayOfWeek], event.endDate.month, event.endDate.day, event.endDate.year))
+		end
+	end
+end
+
 function newGetHolidayInfo(offsetMonths, monthDay, eventIndex)
 	-- return C_Calendar.GetHolidayInfo(offsetMonths, monthDay, eventIndex)
 	-- Because classic doesn't return any events, we're completely replacing this function

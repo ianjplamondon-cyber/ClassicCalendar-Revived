@@ -167,14 +167,6 @@ local function GetLunarFestivalEnd(year)
 	return cny
 end
 
-local function GetDarkmoonStartDay(year, month)
-	local firstDayOfMonth = {
-		year=year,
-		month=month,
-		day=1
-	}
-	return changeWeekdayOfDate(firstDayOfMonth, WEEKDAYS.Monday, 1)
-end
 
 local function GetFollowingSunday(dateD)
 	return changeWeekdayOfDate(dateD, WEEKDAYS.Sunday, 1)
@@ -513,29 +505,150 @@ local SoDBattlegroundWeekends = {
 	}
 }
 
-local DarkmoonHolidays = {
-	elwynn={
+-- Hardcoded Darkmoon Faire schedule for 2025 (based on official Wowhead schedule)
+local ClassicDarkmoonSchedule2025 = {
+	-- January - Elwynn Forest
+	{
 		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
 		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
-		startDate={ year=2023, month=12, day=18, hour=4, min=0 },
-		endDate={ year=2023, month=12, day=25, hour=4, min=0 },
-		frequency=isSoD and 28 or nil,
+		startDate={ year=2025, month=1, day=7, hour=0, min=1 },
+		endDate={ year=2025, month=1, day=13, hour=23, min=59 },
 		CVar="calendarShowDarkmoon",
 		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
 		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
 		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
 		ZIndex=ZIndexes.medium
 	},
-	mulgore={
+	-- February - Mulgore
+	{
 		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["name"],
 		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["description"],
-		startDate={ year=2023, month=12, day=4, hour=4, min=0 },
-		endDate={ year=2023, month=12, day=11, hour=4, min=0 },
-		frequency=isSoD and 28 or nil,
+		startDate={ year=2025, month=2, day=10, hour=0, min=1 },
+		endDate={ year=2025, month=2, day=16, hour=23, min=59 },
 		CVar="calendarShowDarkmoon",
 		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreStart",
 		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreOngoing",
 		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- March - Elwynn Forest
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
+		startDate={ year=2025, month=3, day=10, hour=0, min=1 },
+		endDate={ year=2025, month=3, day=16, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- April - Mulgore
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["description"],
+		startDate={ year=2025, month=4, day=7, hour=0, min=1 },
+		endDate={ year=2025, month=4, day=13, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- May - Elwynn Forest
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
+		startDate={ year=2025, month=5, day=5, hour=0, min=1 },
+		endDate={ year=2025, month=5, day=11, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- June - Mulgore
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["description"],
+		startDate={ year=2025, month=6, day=9, hour=0, min=1 },
+		endDate={ year=2025, month=6, day=15, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- July - Elwynn Forest
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
+		startDate={ year=2025, month=7, day=7, hour=0, min=1 },
+		endDate={ year=2025, month=7, day=13, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- August - Mulgore
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["description"],
+		startDate={ year=2025, month=8, day=4, hour=0, min=1 },
+		endDate={ year=2025, month=8, day=10, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- September - Elwynn Forest
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
+		startDate={ year=2025, month=9, day=8, hour=0, min=1 },
+		endDate={ year=2025, month=9, day=14, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- October - Mulgore
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["description"],
+		startDate={ year=2025, month=10, day=6, hour=0, min=1 },
+		endDate={ year=2025, month=10, day=12, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- November - Elwynn Forest
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
+		startDate={ year=2025, month=11, day=10, hour=0, min=1 },
+		endDate={ year=2025, month=11, day=16, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
+		ZIndex=ZIndexes.medium
+	},
+	-- December - Elwynn Forest
+	{
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
+		startDate={ year=2025, month=12, day=10, hour=0, min=1 },
+		endDate={ year=2025, month=12, day=16, hour=23, min=59 },
+		CVar="calendarShowDarkmoon",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
 		ZIndex=ZIndexes.medium
 	}
 }
@@ -676,7 +789,7 @@ local function addHolidayToSchedule(holiday, schedule)
 	local startTime = time(holiday.startDate)
 	local endTime = time(holiday.endDate)
 
-	if holiday.artConfig == "BattlegroundsArt" then
+	if holiday.artConfig == "BattlegroundsArt" or holiday.CVar == "calendarShowDarkmoon" then
 		holiday.startDate = date("*t", startTime)
 		holiday.endDate = date("*t", endTime)
 	else
@@ -695,6 +808,14 @@ local function addHolidayToSchedule(holiday, schedule)
 		-- Example: 12:00 to 23:59, adjust as needed for your server/event
 		holiday.startDate.hour = 12
 		holiday.startDate.min = 0
+		holiday.endDate.hour = 23
+		holiday.endDate.min = 59
+	end
+	-- Force Darkmoon Faire event times to fixed hours and prevent DST offset
+	if holiday.CVar == "calendarShowDarkmoon" then
+		-- DMF runs Monday 00:01 to Sunday 23:59
+		holiday.startDate.hour = 0
+		holiday.startDate.min = 1
 		holiday.endDate.hour = 23
 		holiday.endDate.min = 59
 	end
@@ -774,44 +895,8 @@ local function addHolidayToSchedule(holiday, schedule)
 end
 
 local function GetClassicDarkmoons()
-	-- Darkmoon in Classic Era starts on the first Friday of every month
-	local isElwynn = true
-	local year = currentCalendarTime.year
-	local month = currentCalendarTime.month
-
-	local darkmoonEvents = {}
-	local currentTime = time(currentCalendarTime)
-	local oneYearFromNow = currentTime + (365 * SECONDS_IN_DAY)
-
-	-- Schedule Darkmoon Faire for 1 year rolling window from current date
-	for _ = 1, 15 do -- Maximum 15 months to ensure we cover the full year
-		month = month + 1
-		if month > 12 then
-			month = 1
-			year = year + 1
-		end
-		
-		local startDate = GetDarkmoonStartDay(year, month)
-		
-		-- Skip events that are too far in the future
-		if time(startDate) > oneYearFromNow then
-			break
-		end
-		
-		local holidayCopy = CopyTable(isElwynn and DarkmoonHolidays.mulgore or DarkmoonHolidays.elwynn)
-		local endDate = addDaysToDate(startDate, 6)
-		startDate.hour = 0
-		startDate.min = 1
-		endDate.hour = 23
-		endDate.min = 59
-		holidayCopy.startDate = startDate
-		holidayCopy.endDate = endDate
-		tinsert(holidaySchedule, holidayCopy)
-
-		isElwynn = not isElwynn
-	end
-
-	return darkmoonEvents
+	-- Return the hardcoded 2025 schedule
+	return ClassicDarkmoonSchedule2025
 end
 
 function GetClassicHolidays()
@@ -846,7 +931,9 @@ function GetClassicHolidays()
 	end
 
 	-- Darkmoon
-	for _, holiday in next, isSoD and DarkmoonHolidays or GetClassicDarkmoons() do
+	-- TODO: For SoD, would need a separate SoD schedule with twice-monthly events
+	-- For now, using Classic schedule for both
+	for _, holiday in next, GetClassicDarkmoons() do
 		addHolidayToSchedule(holiday, holidaySchedule)
 	end
 
