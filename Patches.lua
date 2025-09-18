@@ -4,6 +4,9 @@ local localeString = tostring(GetLocale())
 local date = date
 local time = time
 
+-- Debug mode variable (global)
+DEBUG_MODE = false
+
 CALENDAR_INVITESTATUS_INFO = {
 	["UNKNOWN"] = {
 		name		= UNKNOWN,
@@ -355,33 +358,25 @@ function stubbedGetNumDayEvents(monthOffset, monthDay)
 	local eventTime = time(eventDate)
 
 	local holidays = GetClassicHolidays()
-	print("ClassicCalendar Debug: Number of holidays:", #holidays)
+	
+	if DEBUG_MODE then
+		print("ClassicCalendar Debug: Number of holidays:", #holidays)
+	end
 	
 	-- Limit processing to prevent script timeout
 	if #holidays > 500 then
-		print("ClassicCalendar ERROR: Too many holidays generated (" .. #holidays .. "), limiting to first 500")
+		if DEBUG_MODE then
+			print("ClassicCalendar ERROR: Too many holidays generated (" .. #holidays .. "), limiting to first 500")
+		end
 		-- Truncate the holidays table to prevent timeout
 		for i = 501, #holidays do
 			holidays[i] = nil
 		end
 	end
 	
-	-- Only show first 10 and last 10 holidays for debugging
-	for i = 1, math.min(10, #holidays) do
-		local holiday = holidays[i]
-		if holiday.startDate and holiday.endDate then
-			print(string.format("Holiday %d: name=%s, startDate=%d/%d/%d, endDate=%d/%d/%d", 
-				i, holiday.name or "Unknown", 
-				holiday.startDate.month, holiday.startDate.day, holiday.startDate.year,
-				holiday.endDate.month, holiday.endDate.day, holiday.endDate.year))
-		else
-			print(string.format("Holiday %d: MISSING startDate or endDate", i))
-		end
-	end
-	
-	if #holidays > 10 then
-		print("... (showing last 10 holidays)")
-		for i = math.max(#holidays - 9, 11), #holidays do
+	if DEBUG_MODE then
+		-- Only show first 10 and last 10 holidays for debugging
+		for i = 1, math.min(10, #holidays) do
 			local holiday = holidays[i]
 			if holiday.startDate and holiday.endDate then
 				print(string.format("Holiday %d: name=%s, startDate=%d/%d/%d, endDate=%d/%d/%d", 
@@ -390,6 +385,21 @@ function stubbedGetNumDayEvents(monthOffset, monthDay)
 					holiday.endDate.month, holiday.endDate.day, holiday.endDate.year))
 			else
 				print(string.format("Holiday %d: MISSING startDate or endDate", i))
+			end
+		end
+		
+		if #holidays > 10 then
+			print("... (showing last 10 holidays)")
+			for i = math.max(#holidays - 9, 11), #holidays do
+				local holiday = holidays[i]
+				if holiday.startDate and holiday.endDate then
+					print(string.format("Holiday %d: name=%s, startDate=%d/%d/%d, endDate=%d/%d/%d", 
+						i, holiday.name or "Unknown", 
+						holiday.startDate.month, holiday.startDate.day, holiday.startDate.year,
+						holiday.endDate.month, holiday.endDate.day, holiday.endDate.year))
+				else
+					print(string.format("Holiday %d: MISSING startDate or endDate", i))
+				end
 			end
 		end
 	end
@@ -612,6 +622,16 @@ SLASH_CALENDAR1, SLASH_CALENDAR2 = '/cal', '/calendar'
 
 function SlashCmdList.CALENDAR(_msg, _editBox)
 	Calendar_Toggle()
+end
+
+-- Slash command /caldebug to toggle debug mode
+
+SLASH_CALDEBUG1 = '/caldebug'
+
+function SlashCmdList.CALDEBUG(_msg, _editBox)
+	DEBUG_MODE = not DEBUG_MODE
+	CCConfig.DebugMode = DEBUG_MODE
+	print("ClassicCalendar Debug Mode: " .. (DEBUG_MODE and "ON" or "OFF"))
 end
 
 function newGetHolidayInfo(offsetMonths, monthDay, eventIndex)

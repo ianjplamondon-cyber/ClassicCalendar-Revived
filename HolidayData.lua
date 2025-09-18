@@ -818,7 +818,7 @@ function GetClassicHolidays()
 	-- Clear cache if it's a new day or if it has too many entries (indicates old buggy generation)
 	local currentDate = string.format("%d-%d-%d", currentCalendarTime.year, currentCalendarTime.month, currentCalendarTime.day)
 	if (lastCacheDate ~= currentDate) or (next(holidaySchedule) ~= nil and #holidaySchedule > 500) then
-		if next(holidaySchedule) ~= nil then
+		if DEBUG_MODE and next(holidaySchedule) ~= nil then
 			print("ClassicCalendar: Refreshing holiday cache (" .. (#holidaySchedule > 500 and "oversized: " .. #holidaySchedule .. " entries" or "new day") .. ")")
 		end
 		holidaySchedule = {}

@@ -1,4 +1,3 @@
-
 -- static popups
 StaticPopupDialogs["CALENDAR_DELETE_EVENT"] = {
 	text = "%s",
