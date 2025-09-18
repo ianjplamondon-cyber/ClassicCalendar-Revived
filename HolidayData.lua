@@ -639,16 +639,16 @@ local ClassicDarkmoonSchedule2025 = {
 		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
 		ZIndex=ZIndexes.medium
 	},
-	-- December - Elwynn Forest
+	-- December - Mulgore
 	{
-		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["name"],
-		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireElwynn"]["description"],
-		startDate={ year=2025, month=12, day=10, hour=0, min=1 },
-		endDate={ year=2025, month=12, day=16, hour=23, min=59 },
+		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["name"],
+		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["DarkmoonFaireMulgore"]["description"],
+		startDate={ year=2025, month=12, day=8, hour=0, min=1 },
+		endDate={ year=2025, month=12, day=14, hour=23, min=59 },
 		CVar="calendarShowDarkmoon",
-		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnStart",
-		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnOngoing",
-		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireElwynnEnd",
+		startTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreStart",
+		ongoingTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreOngoing",
+		endTexture="Interface/Calendar/Holidays/Calendar_DarkmoonFaireMulgoreEnd",
 		ZIndex=ZIndexes.medium
 	}
 }
