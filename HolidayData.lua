@@ -252,6 +252,7 @@ local CLASSIC_CALENDAR_HOLIDAYS = {
 		endTexture="Interface/Calendar/Holidays/Calendar_HarvestFestivalEnd",
 		ZIndex=ZIndexes.high
 	},
+	--[[
 	{
 		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["Brewfest"]["name"],
 		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["Brewfest"]["description"],
@@ -262,6 +263,7 @@ local CLASSIC_CALENDAR_HOLIDAYS = {
 		endTexture="Interface/Calendar/Holidays/Calendar_BrewfestEnd",
 		ZIndex=ZIndexes.high
 	},
+	--]]
 	{
 		name=L.HolidayLocalization[localeString]["CalendarHolidays"]["HallowsEnd"]["name"],
 		description=L.HolidayLocalization[localeString]["CalendarHolidays"]["HallowsEnd"]["description"],
